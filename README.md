@@ -57,6 +57,8 @@ For refreshed or OIDC-issued tokens, implement `AccessTokenProvider` and pass it
 
 The builder accepts a reusable `reqwest::Client` and lets you set connection and request timeouts when it creates the HTTP client. Defaults are 15 seconds to connect and 120 seconds per request. A supplied `reqwest::Client` keeps its own timeout configuration.
 
+HTTP response compression is enabled for gzip, Brotli, Zstandard, and deflate. `reqwest` advertises supported encodings on API requests and transparently decompresses compressed responses before the generated client decodes them. Request bodies are not compressed.
+
 Retries are disabled by default. To retry safe reads up to two times:
 
 ```rust,no_run

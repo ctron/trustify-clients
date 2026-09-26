@@ -87,6 +87,10 @@ impl TrustifyClientBuilder {
     }
 
     /// Build the client. Requests are anonymous if no token provider was set.
+    ///
+    /// The default HTTP client negotiates gzip, Brotli, Zstandard, and deflate
+    /// responses and decompresses them automatically. A supplied `reqwest`
+    /// client retains its own compression configuration.
     pub fn build(self) -> Result<TrustifyClient, BuildError> {
         let parsed = Url::parse(&self.base_url)?;
         if !matches!(parsed.scheme(), "http" | "https") {

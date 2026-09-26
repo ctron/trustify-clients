@@ -26,6 +26,10 @@ storage remain the responsibility of the calling application. Retries are
 disabled by default; opt into bounded retries for GET/HEAD requests with
 `RetryPolicy::for_idempotent_requests`.
 
+HTTP response compression is enabled for gzip, Brotli, Zstandard, and deflate.
+`reqwest` advertises supported encodings on requests and transparently
+decompresses compressed responses. Request bodies are not compressed.
+
 The OpenAPI source is pinned under `openapi/`. Run `scripts/generate-rust.sh`
 after updating it; generated bindings are checked in at
 `rust/trustify-client/src/api_generated.rs`.
