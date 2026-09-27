@@ -2833,6 +2833,18 @@ This information is only present when requested.*/
             Default::default()
         }
     }
+    ///`PaginatedResultsOrganizationSummary`
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct PaginatedResultsOrganizationSummary {
+        pub items: ::std::vec::Vec<OrganizationSummary>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub total: ::std::option::Option<i64>,
+    }
+    impl PaginatedResultsOrganizationSummary {
+        pub fn builder() -> builder::PaginatedResultsOrganizationSummary {
+            Default::default()
+        }
+    }
     ///`PaginatedResultsProductSummary`
     #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
     pub struct PaginatedResultsProductSummary {
@@ -3240,6 +3252,18 @@ release.*/
     }
     impl PaginatedResultsVulnerabilitySummary {
         pub fn builder() -> builder::PaginatedResultsVulnerabilitySummary {
+            Default::default()
+        }
+    }
+    ///`PaginatedResultsWeaknessSummary`
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct PaginatedResultsWeaknessSummary {
+        pub items: ::std::vec::Vec<WeaknessSummary>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub total: ::std::option::Option<i64>,
+    }
+    impl PaginatedResultsWeaknessSummary {
+        pub fn builder() -> builder::PaginatedResultsWeaknessSummary {
             Default::default()
         }
     }
@@ -5271,6 +5295,70 @@ CVE identifier.*/
     }
     impl ::std::convert::From<VulnerabilityHead> for VulnerabilitySummary {
         fn from(value: VulnerabilityHead) -> Self {
+            Self(value)
+        }
+    }
+    ///`WeaknessDetails`
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct WeaknessDetails {
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub can_also_be: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub can_follow: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub can_precede: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub child_of: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub description: ::std::option::Option<::std::string::String>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub extended_description: ::std::option::Option<::std::string::String>,
+        pub id: ::std::string::String,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub parent_of: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub peer_of: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub required_by: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub requires: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub starts_with: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+    }
+    impl WeaknessDetails {
+        pub fn builder() -> builder::WeaknessDetails {
+            Default::default()
+        }
+    }
+    ///`WeaknessHead`
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct WeaknessHead {
+        #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+        pub description: ::std::option::Option<::std::string::String>,
+        pub id: ::std::string::String,
+    }
+    impl WeaknessHead {
+        pub fn builder() -> builder::WeaknessHead {
+            Default::default()
+        }
+    }
+    ///`WeaknessSummary`
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(transparent)]
+    pub struct WeaknessSummary(pub WeaknessHead);
+    impl ::std::ops::Deref for WeaknessSummary {
+        type Target = WeaknessHead;
+        fn deref(&self) -> &WeaknessHead {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<WeaknessSummary> for WeaknessHead {
+        fn from(value: WeaknessSummary) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<WeaknessHead> for WeaknessSummary {
+        fn from(value: WeaknessHead) -> Self {
             Self(value)
         }
     }
@@ -15530,6 +15618,72 @@ CVE identifier.*/
             }
         }
         #[derive(Clone, Debug)]
+        pub struct PaginatedResultsOrganizationSummary {
+            items: ::std::result::Result<
+                ::std::vec::Vec<super::OrganizationSummary>,
+                ::std::string::String,
+            >,
+            total: ::std::result::Result<
+                ::std::option::Option<i64>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for PaginatedResultsOrganizationSummary {
+            fn default() -> Self {
+                Self {
+                    items: Err("no value supplied for items".to_string()),
+                    total: Ok(Default::default()),
+                }
+            }
+        }
+        impl PaginatedResultsOrganizationSummary {
+            pub fn items<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::OrganizationSummary>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.items = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for items: {e}")
+                    });
+                self
+            }
+            pub fn total<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.total = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for total: {e}")
+                    });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<PaginatedResultsOrganizationSummary>
+        for super::PaginatedResultsOrganizationSummary {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: PaginatedResultsOrganizationSummary,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    items: value.items?,
+                    total: value.total?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::PaginatedResultsOrganizationSummary>
+        for PaginatedResultsOrganizationSummary {
+            fn from(value: super::PaginatedResultsOrganizationSummary) -> Self {
+                Self {
+                    items: Ok(value.items),
+                    total: Ok(value.total),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct PaginatedResultsProductSummary {
             items: ::std::result::Result<
                 ::std::vec::Vec<super::PaginatedResultsProductSummaryItemsItem>,
@@ -18293,6 +18447,72 @@ CVE identifier.*/
         impl ::std::convert::From<super::PaginatedResultsVulnerabilitySummary>
         for PaginatedResultsVulnerabilitySummary {
             fn from(value: super::PaginatedResultsVulnerabilitySummary) -> Self {
+                Self {
+                    items: Ok(value.items),
+                    total: Ok(value.total),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct PaginatedResultsWeaknessSummary {
+            items: ::std::result::Result<
+                ::std::vec::Vec<super::WeaknessSummary>,
+                ::std::string::String,
+            >,
+            total: ::std::result::Result<
+                ::std::option::Option<i64>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for PaginatedResultsWeaknessSummary {
+            fn default() -> Self {
+                Self {
+                    items: Err("no value supplied for items".to_string()),
+                    total: Ok(Default::default()),
+                }
+            }
+        }
+        impl PaginatedResultsWeaknessSummary {
+            pub fn items<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::WeaknessSummary>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.items = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for items: {e}")
+                    });
+                self
+            }
+            pub fn total<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.total = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for total: {e}")
+                    });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<PaginatedResultsWeaknessSummary>
+        for super::PaginatedResultsWeaknessSummary {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: PaginatedResultsWeaknessSummary,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    items: value.items?,
+                    total: value.total?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::PaginatedResultsWeaknessSummary>
+        for PaginatedResultsWeaknessSummary {
+            fn from(value: super::PaginatedResultsWeaknessSummary) -> Self {
                 Self {
                     items: Ok(value.items),
                     total: Ok(value.total),
@@ -25047,6 +25267,334 @@ CVE identifier.*/
                 }
             }
         }
+        #[derive(Clone, Debug)]
+        pub struct WeaknessDetails {
+            can_also_be: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            can_follow: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            can_precede: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            child_of: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            description: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            extended_description: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            id: ::std::result::Result<::std::string::String, ::std::string::String>,
+            parent_of: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            peer_of: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            required_by: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            requires: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+            starts_with: ::std::result::Result<
+                ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for WeaknessDetails {
+            fn default() -> Self {
+                Self {
+                    can_also_be: Ok(Default::default()),
+                    can_follow: Ok(Default::default()),
+                    can_precede: Ok(Default::default()),
+                    child_of: Ok(Default::default()),
+                    description: Ok(Default::default()),
+                    extended_description: Ok(Default::default()),
+                    id: Err("no value supplied for id".to_string()),
+                    parent_of: Ok(Default::default()),
+                    peer_of: Ok(Default::default()),
+                    required_by: Ok(Default::default()),
+                    requires: Ok(Default::default()),
+                    starts_with: Ok(Default::default()),
+                }
+            }
+        }
+        impl WeaknessDetails {
+            pub fn can_also_be<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.can_also_be = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for can_also_be: {e}")
+                    });
+                self
+            }
+            pub fn can_follow<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.can_follow = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for can_follow: {e}")
+                    });
+                self
+            }
+            pub fn can_precede<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.can_precede = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for can_precede: {e}")
+                    });
+                self
+            }
+            pub fn child_of<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.child_of = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for child_of: {e}")
+                    });
+                self
+            }
+            pub fn description<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.description = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for description: {e}")
+                    });
+                self
+            }
+            pub fn extended_description<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.extended_description = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for extended_description: {e}"
+                        )
+                    });
+                self
+            }
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.id = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for id: {e}"));
+                self
+            }
+            pub fn parent_of<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.parent_of = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for parent_of: {e}")
+                    });
+                self
+            }
+            pub fn peer_of<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.peer_of = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for peer_of: {e}")
+                    });
+                self
+            }
+            pub fn required_by<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.required_by = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for required_by: {e}")
+                    });
+                self
+            }
+            pub fn requires<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.requires = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for requires: {e}")
+                    });
+                self
+            }
+            pub fn starts_with<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.starts_with = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for starts_with: {e}")
+                    });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<WeaknessDetails> for super::WeaknessDetails {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: WeaknessDetails,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    can_also_be: value.can_also_be?,
+                    can_follow: value.can_follow?,
+                    can_precede: value.can_precede?,
+                    child_of: value.child_of?,
+                    description: value.description?,
+                    extended_description: value.extended_description?,
+                    id: value.id?,
+                    parent_of: value.parent_of?,
+                    peer_of: value.peer_of?,
+                    required_by: value.required_by?,
+                    requires: value.requires?,
+                    starts_with: value.starts_with?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::WeaknessDetails> for WeaknessDetails {
+            fn from(value: super::WeaknessDetails) -> Self {
+                Self {
+                    can_also_be: Ok(value.can_also_be),
+                    can_follow: Ok(value.can_follow),
+                    can_precede: Ok(value.can_precede),
+                    child_of: Ok(value.child_of),
+                    description: Ok(value.description),
+                    extended_description: Ok(value.extended_description),
+                    id: Ok(value.id),
+                    parent_of: Ok(value.parent_of),
+                    peer_of: Ok(value.peer_of),
+                    required_by: Ok(value.required_by),
+                    requires: Ok(value.requires),
+                    starts_with: Ok(value.starts_with),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct WeaknessHead {
+            description: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            id: ::std::result::Result<::std::string::String, ::std::string::String>,
+        }
+        impl ::std::default::Default for WeaknessHead {
+            fn default() -> Self {
+                Self {
+                    description: Ok(Default::default()),
+                    id: Err("no value supplied for id".to_string()),
+                }
+            }
+        }
+        impl WeaknessHead {
+            pub fn description<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.description = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for description: {e}")
+                    });
+                self
+            }
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.id = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for id: {e}"));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<WeaknessHead> for super::WeaknessHead {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: WeaknessHead,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    description: value.description?,
+                    id: value.id?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::WeaknessHead> for WeaknessHead {
+            fn from(value: super::WeaknessHead) -> Self {
+                Self {
+                    description: Ok(value.description),
+                    id: Ok(value.id),
+                }
+            }
+        }
     }
     /// Error types.
     pub mod error {
@@ -28023,6 +28571,9 @@ Examples:
 - Complex filter: modified>2024-01-01
 - Combined query: title=foo&average_severity=high
 - Escaped characters: title=foo\\&bar
+
+The vulnerability filter field is named `id`; vulnerability
+response objects expose this identifier as `identifier`.
 
 - `sort`: EBNF grammar for the _sort_ parameter:
 ```text
@@ -32875,7 +33426,10 @@ pub mod builder {
         ///Sends a `GET` request to `/api/v3/organization`
         pub async fn send(
             self,
-        ) -> Result<ResponseValue<types::OrganizationSummary>, Error<()>> {
+        ) -> Result<
+            ResponseValue<types::PaginatedResultsOrganizationSummary>,
+            Error<()>,
+        > {
             let Self { client, limit, offset, q, sort, total } = self;
             let limit = limit.map_err(Error::InvalidRequest)?;
             let offset = offset.map_err(Error::InvalidRequest)?;
@@ -36521,7 +37075,7 @@ pub mod builder {
         ///Sends a `GET` request to `/api/v3/weakness`
         pub async fn send(
             self,
-        ) -> Result<ResponseValue<types::PaginatedResultsLicenseSummary>, Error<()>> {
+        ) -> Result<ResponseValue<types::PaginatedResultsWeaknessSummary>, Error<()>> {
             let Self { client, limit, offset, q, sort, total } = self;
             let limit = limit.map_err(Error::InvalidRequest)?;
             let offset = offset.map_err(Error::InvalidRequest)?;
@@ -36599,7 +37153,7 @@ pub mod builder {
         ///Sends a `GET` request to `/api/v3/weakness/{id}`
         pub async fn send(
             self,
-        ) -> Result<ResponseValue<types::LicenseSummary>, Error<()>> {
+        ) -> Result<ResponseValue<types::WeaknessDetails>, Error<()>> {
             let Self { client, id } = self;
             let id = id.map_err(Error::InvalidRequest)?;
             let url = format!(

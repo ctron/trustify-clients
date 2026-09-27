@@ -2386,7 +2386,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationSummary'
+                $ref: '#/components/schemas/PaginatedResults_OrganizationSummary'
   /api/v3/organization/{id}:
     get:
       tags:
@@ -4167,6 +4167,9 @@ paths:
           - Complex filter: modified>2024-01-01
           - Combined query: title=foo&average_severity=high
           - Escaped characters: title=foo\\&bar
+
+          The vulnerability filter field is named `id`; vulnerability
+          response objects expose this identifier as `identifier`.
         required: false
         schema:
           type: string
@@ -4386,7 +4389,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedResults_LicenseSummary'
+                $ref: '#/components/schemas/PaginatedResults_WeaknessSummary'
   /api/v3/weakness/{id}:
     get:
       tags:
@@ -4405,7 +4408,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LicenseSummary'
+                $ref: '#/components/schemas/WeaknessDetails'
         '404':
           description: The weakness could not be found
 components:
@@ -6300,6 +6303,21 @@ components:
           - 'null'
           format: int64
           minimum: 0
+    PaginatedResults_OrganizationSummary:
+      type: object
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationSummary'
+        total:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          minimum: 0
     PaginatedResults_Node:
       type: object
       required:
@@ -6768,6 +6786,21 @@ components:
           items:
             allOf:
             - $ref: '#/components/schemas/VulnerabilityHead'
+        total:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          minimum: 0
+    PaginatedResults_WeaknessSummary:
+      type: object
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeaknessSummary'
         total:
           type:
           - integer
@@ -8058,3 +8091,80 @@ components:
     VulnerabilitySummary:
       allOf:
       - $ref: '#/components/schemas/VulnerabilityHead'
+    WeaknessDetails:
+      allOf:
+      - $ref: '#/components/schemas/WeaknessHead'
+      - type: object
+        properties:
+          can_also_be:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          can_follow:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          can_precede:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          child_of:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          extended_description:
+            type:
+            - string
+            - 'null'
+          parent_of:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          peer_of:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          required_by:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          requires:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+          starts_with:
+            type:
+            - array
+            - 'null'
+            items:
+              type: string
+    WeaknessHead:
+      type: object
+      required:
+      - id
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: string
+    WeaknessSummary:
+      allOf:
+      - $ref: '#/components/schemas/WeaknessHead'
