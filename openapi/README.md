@@ -1,9 +1,15 @@
 # OpenAPI source
 
-`openapi.yaml` is synced from the Trustify `v0.6.2` release at commit
+`openapi.yaml` is based on the Trustify `v0.6.2` release at commit
 `b9d2627f83d189f0e7447b6bc0820f95bd061749`.
 
-SHA-256: `b223b565cf7ad271918d66702e41df79c09d48002e35a6d16eea398f3ca9a185`
+SHA-256: `08e625ceb260af20123f89a0a34ce182f544eb664e1c837026f22e261aa57551`
+
+The checked-in spec corrects upstream response schemas: organization listings
+return `PaginatedResults_OrganizationSummary`, weakness listings return
+`PaginatedResults_WeaknessSummary`, and weakness details return
+`WeaknessDetails`. Vulnerability filters use the field `id`, although response
+objects expose that value as `identifier`.
 
 To update it to another Trustify commit or tag, run:
 
