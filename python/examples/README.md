@@ -11,9 +11,9 @@ export TRUSTIFY_TOKEN=your-token  # omit for anonymous access
 Run an example with `uv`:
 
 ```sh
-uv run --project python examples/python/server_info.py
-uv run --project python examples/python/sbom_inventory.py --limit 20
-uv run --project python examples/python/data_report.py --limit 100
+uv run --project python python/examples/server_info.py
+uv run --project python python/examples/sbom_inventory.py --limit 20
+uv run --project python python/examples/data_report.py --limit 100
 ```
 
 `uv` creates and uses the project environment under `python/`; no global

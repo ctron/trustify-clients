@@ -151,7 +151,7 @@ with TrustifyClient("https://trustify.example", bearer_token="access-token") as 
 Use each generated endpoint's `.asyncio` function from async code. See
 [`python/README.md`](python/README.md) for configuration details. Regenerate
 bindings with `scripts/generate-python.sh`. Runnable live-server examples are
-in [`examples/python/`](examples/python/README.md).
+in [`python/examples/`](python/examples/README.md).
 
 For a release, update the version in `python/pyproject.toml` and push a matching
 `python-vX.Y.Z` tag. Stable tags publish to PyPI after tests and package building
