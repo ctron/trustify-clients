@@ -1,12 +1,16 @@
-use trustify_client::TrustifyClient;
+#[path = "common/mod.rs"]
+mod support;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let base_url =
-        std::env::var("TRUSTIFY_URL").unwrap_or_else(|_| "http://localhost:8080".to_owned());
-    let client = TrustifyClient::builder(base_url).build()?;
+    let base_url = support::trustify_url();
+    let client = support::client(&base_url).await?;
 
     let info = client.api().info().send().await?;
-    println!("{:#?}", info.into_inner());
+    let info = info.into_inner();
+    println!("Server: {base_url}");
+    println!("Version: {}", info.version);
+    println!("Read only: {}", info.read_only);
+    println!("Exploit intelligence: {}", info.exploit_intelligence);
     Ok(())
 }

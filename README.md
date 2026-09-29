@@ -33,11 +33,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-The repository includes a runnable version of this example. By default it connects to `http://localhost:8080`; set `TRUSTIFY_URL` to use another server:
+The repository includes runnable examples for server info, SBOM inventory, and
+a data report. By default they connect to `http://localhost:8080`; set
+`TRUSTIFY_URL` to use another server. OIDC client credentials are read from
+`ISSUER_URL`, `CLIENT_ID`, and `CLIENT_SECRET`; an existing `TRUSTIFY_TOKEN`
+takes precedence.
 
 ```sh
-TRUSTIFY_URL=https://trustify.example \
-  cargo run --manifest-path rust/Cargo.toml -p trustify-client --example info
+export TRUSTIFY_URL=https://trustify.example
+export ISSUER_URL=https://identity.example/realms/trustify
+export CLIENT_ID=your-client-id
+export CLIENT_SECRET=your-client-secret
+```
+
+For an existing access token, set `TRUSTIFY_TOKEN` instead of the OIDC
+credentials. The examples use issuer discovery and the `client_credentials`
+grant.
+
+```sh
+cargo run --manifest-path rust/Cargo.toml -p trustify-client --example info
+cargo run --manifest-path rust/Cargo.toml -p trustify-client --example sbom_inventory -- --limit 20
+cargo run --manifest-path rust/Cargo.toml -p trustify-client --example data_report -- --limit 100
 ```
 
 ### Authentication and request configuration
