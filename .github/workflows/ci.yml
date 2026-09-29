@@ -31,3 +31,28 @@ jobs:
         run: |
           scripts/generate-rust.sh
           git diff --exit-code -- rust/trustify-client/src/api_generated.rs
+
+  python:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install Python client and generator
+        run: |
+          python3 -m venv python/.venv
+          python/.venv/bin/pip install -e python \
+            'openapi-python-client==0.29.1' \
+            'PyYAML==6.0.2' \
+            'ruff==0.16.9'
+
+      - name: Run Python tests
+        run: python/.venv/bin/python -m unittest discover -s python/tests
+
+      - name: Verify generated API is current
+        run: |
+          PATH="$GITHUB_WORKSPACE/python/.venv/bin:$PATH" python/.venv/bin/python scripts/generate-python.py
+          git diff --exit-code -- python/trustify_client/generated
+          if [ -n "$(git ls-files --others --exclude-standard -- python/trustify_client/generated)" ]; then
+            echo "::error::Generated Python files are missing from version control"
+            exit 1
+          fi

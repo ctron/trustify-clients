@@ -1,0 +1,70 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any, Self, TypeVar
+from uuid import UUID
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+T = TypeVar("T", bound="BasePurlHead")
+
+
+@_attrs_define
+class BasePurlHead:
+    """
+    Attributes:
+        purl (str):
+        uuid (UUID): The ID of the base PURL
+    """
+
+    purl: str
+    uuid: UUID
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        purl = self.purl
+
+        uuid = str(self.uuid)
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "purl": purl,
+                "uuid": uuid,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        d = dict(src_dict)
+        purl = d.pop("purl")
+
+        uuid = UUID(d.pop("uuid"))
+
+        base_purl_head = cls(
+            purl=purl,
+            uuid=uuid,
+        )
+
+        base_purl_head.additional_properties = d
+        return base_purl_head
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

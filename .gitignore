@@ -1,5 +1,9 @@
 /target/
 /rust/target/
+/python/.venv/
+__pycache__/
+.ruff_cache/
+*.egg-info/
 .idea
 .DS_Store
 .envrc

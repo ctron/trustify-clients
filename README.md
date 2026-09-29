@@ -1,6 +1,6 @@
 # Trustify clients
 
-This repository brings together language-specific clients for the [Trustify](https://github.com/guacsec/trustify) REST API. The Rust client documentation appears below; Go and Python sections mark where their usage docs belong. The shared OpenAPI source is in [`openapi/`](openapi/).
+This repository brings together language-specific clients for the [Trustify](https://github.com/guacsec/trustify) REST API. The shared OpenAPI source is in [`openapi/`](openapi/).
 
 ## Rust
 
@@ -83,7 +83,7 @@ Only GET and HEAD requests are retried, for connection/time-out failures and HTT
 - `rust/xtask/` — OpenAPI normalization and API generation.
 - `openapi/` — pinned upstream Trustify OpenAPI source and version/hash metadata.
 - `scripts/` — OpenAPI sync and Rust API generation scripts.
-- `.github/workflows/` — CI and crates.io release workflows.
+- `.github/workflows/` — CI and crates.io/PyPI release workflows.
 
 The checked-in API is generated from the Trustify `v0.6.2` specification at commit `b9d2627f83d189f0e7447b6bc0820f95bd061749`. The source spec is OpenAPI 3.1.0; `xtask` normalizes it for the pinned Progenitor 0.15.0 generator without changing the canonical spec file.
 
@@ -115,7 +115,33 @@ Go client documentation, installation instructions, and examples will be added h
 
 ## Python
 
-Python client documentation, installation instructions, and examples will be added here.
+The `python/` project provides sync and async typed bindings generated from the
+shared OpenAPI source, plus a `TrustifyClient` wrapper for bearer tokens,
+timeouts, retries, and offset pagination.
+
+```sh
+pip install ./python
+```
+
+```python
+from trustify_client import TrustifyClient
+from trustify_client.generated.api.default import info
+
+with TrustifyClient("https://trustify.example", bearer_token="access-token") as client:
+    response = info.sync(client=client.api)
+    print(response)
+```
+
+Use each generated endpoint's `.asyncio` function from async code. See
+[`python/README.md`](python/README.md) for configuration details. Regenerate
+bindings with `scripts/generate-python.sh`. Runnable live-server examples are
+in [`examples/python/`](examples/python/README.md).
+
+For a release, update the version in `python/pyproject.toml` and push a matching
+`python-vX.Y.Z` tag. Stable tags publish to PyPI after tests and package building
+pass; prerelease tags run validation without publishing. Configure `trustify-client`
+on PyPI with a trusted publisher for this repository, the
+`.github/workflows/python-release.yml` workflow, and the `pypi` environment.
 
 ## License
 
