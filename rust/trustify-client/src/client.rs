@@ -91,6 +91,9 @@ impl TrustifyClientBuilder {
     /// The default HTTP client negotiates gzip, Brotli, Zstandard, and deflate
     /// responses and decompresses them automatically. A supplied `reqwest`
     /// client retains its own compression configuration.
+    ///
+    /// On `wasm32` targets the browser handles compression and timeouts, so
+    /// those settings are not applied to the default client.
     pub fn build(self) -> Result<TrustifyClient, BuildError> {
         let parsed = Url::parse(&self.base_url)?;
         if !matches!(parsed.scheme(), "http" | "https") {
@@ -100,10 +103,14 @@ impl TrustifyClientBuilder {
         let base_url = self.base_url.trim_end_matches('/').to_owned();
         let http_client = match self.http_client {
             Some(client) => client,
-            None => reqwest::Client::builder()
-                .connect_timeout(self.connect_timeout)
-                .timeout(self.request_timeout)
-                .build()?,
+            None => {
+                let builder = reqwest::Client::builder();
+                #[cfg(not(target_arch = "wasm32"))]
+                let builder = builder
+                    .connect_timeout(self.connect_timeout)
+                    .timeout(self.request_timeout);
+                builder.build()?
+            }
         };
         let context = ClientContext {
             token_provider: self.token_provider,
@@ -210,7 +217,7 @@ impl ClientHooks<ClientContext> for api::Client {
                 }
                 Err(error) => {
                     if let Some(next_request) =
-                        retry_request.filter(|_| error.is_timeout() || error.is_connect())
+                        retry_request.filter(|_| is_retryable_error(&error))
                     {
                         futures_timer::Delay::new(policy.delay(attempt)).await;
                         request = next_request;
@@ -222,6 +229,20 @@ impl ClientHooks<ClientContext> for api::Client {
             }
         }
     }
+}
+
+/// Timeout errors are retryable on all targets.  Connection errors are only
+/// checked on native platforms because `reqwest` on `wasm32` delegates to
+/// the browser `fetch` API, which does not surface connection-level failures.
+fn is_retryable_error(error: &reqwest::Error) -> bool {
+    if error.is_timeout() {
+        return true;
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    if error.is_connect() {
+        return true;
+    }
+    false
 }
 
 fn is_retryable_status(status: reqwest::StatusCode) -> bool {
