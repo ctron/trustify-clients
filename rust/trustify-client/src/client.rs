@@ -216,8 +216,7 @@ impl ClientHooks<ClientContext> for api::Client {
                     return Ok(response);
                 }
                 Err(error) => {
-                    if let Some(next_request) =
-                        retry_request.filter(|_| is_retryable_error(&error))
+                    if let Some(next_request) = retry_request.filter(|_| is_retryable_error(&error))
                     {
                         futures_timer::Delay::new(policy.delay(attempt)).await;
                         request = next_request;
